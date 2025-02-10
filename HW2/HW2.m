@@ -2,7 +2,9 @@ function [] = HW2()
     % Read Data
     load ECG_1.mat ECG Fs;
 
-    for i = 1:12
+    prominance_vals = [0.5, 0.5, 0.9, 0.8, 0.7, 0.9, 0.5, 0.3, 0.8, 0.6, 0.5, 0.6];
+
+    for i = 12:12
         %% Init data for current sample %%
         fprintf("Sample %d\n", i);
         patient_ECG = ECG(i, :);
@@ -24,7 +26,7 @@ function [] = HW2()
         % Calculate the HR of a patient every minute
         while current_sample < data_len 
             patient_hr_minute = patient_ECG(current_sample : (current_sample + samples_per_min));
-            hr = getheartbeat(patient_hr_minute);
+            hr = getheartbeat(patient_hr_minute, prominance_vals(i));
             patient_ECG_min(j) = hr;
             fprintf("Patient heartrate at %d minute(s): %d\n", fix(current_sample / samples_per_min) + 1, hr);
             current_sample = current_sample + samples_per_min;
@@ -33,6 +35,7 @@ function [] = HW2()
 
         % Display the data
         patient_ECG_y_min = 1 : fix(data_len/samples_per_min);
+        disp(mean(patient_ECG_min));
         plot(patient_ECG_y_min, patient_ECG_min);
         fprintf("Displaying patient heart rate in minutes...\n")
         fprintf("Press any key to continue...\n")
@@ -44,6 +47,7 @@ function [] = HW2()
         for j = 2:size(patient_ECG_min, 2)
             patient_ECG_min_variability(j - 1) = abs(patient_ECG_min(j - 1) - patient_ECG_min(j));
         end
+        disp(mean(patient_ECG_min_variability));
         plot(patient_ECG_min_variability);
         fprintf("Displaying heart rate variability in minutes...\n")
         fprintf("Press any key to continue...\n")

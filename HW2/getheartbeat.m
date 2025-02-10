@@ -1,4 +1,4 @@
-function heartbeat = getheartbeat(data)
-    heartbeats = findpeaks(data, "MinPeakProminence", 0.5);
+function heartbeat = getheartbeat(data, prom_val)
+    heartbeats = findpeaks(data, "MinPeakProminence", prom_val);
     heartbeat = size(heartbeats, 2);
 end
