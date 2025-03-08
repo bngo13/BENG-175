@@ -2,9 +2,9 @@ function [] = HW2()
     % Read Data
     load ECG_1.mat ECG Fs;
 
-    prominance_vals = [0.5, 0.5, 0.9, 0.8, 0.7, 0.9, 0.5, 0.3, 0.8, 0.6, 0.5, 0.6];
+    prominance_vals = [1, 0.5, 0.9, 0.8, 0.7, 0.9, 0.5, 0.3, 0.8, 0.6, 0.5, 0.6];
 
-    for i = 12:12
+    for i = 1:12
         %% Init data for current sample %%
         fprintf("Sample %d\n", i);
         patient_ECG = ECG(i, :);
@@ -44,6 +44,8 @@ function [] = HW2()
         %% Calculate hr variability per min
 
         patient_ECG_min_variability = [];
+        f = abs(diff(patient_ECG_min));
+        disp(f)
         for j = 2:size(patient_ECG_min, 2)
             patient_ECG_min_variability(j - 1) = abs(patient_ECG_min(j - 1) - patient_ECG_min(j));
         end
