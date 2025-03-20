@@ -15,7 +15,6 @@ function parseSamples(dataset, Fs)
     locations = findPeaks(dataset, 0.5, Fs);
     rrIntervals = diff(locations);
     fprintf("Average RR Interval: %d\n", mean(rrIntervals));
-    figure()
     histogram(rrIntervals, 25);
 end
 
