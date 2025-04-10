@@ -38,17 +38,25 @@ function HW4
     lpVal = 150 / Fs;
     b = fir1(48, lpVal, "low", chebwin(49, 30));
     lp_ECG = filter(b, 1, abs_ECG);
-    lp_ECG = movmean(lp_ECG, 8);
+    lp_ECG = movmean(lp_ECG, 10);
     subplot(6, 1, 5);
     plot(lp_ECG)
     xlim([1 viewWindow])
     title("LowPass ECG")
 
     % Threshold
-    [~, qrs] = findpeaks(lp_ECG, "MinPeakProminence", peakVal);
-    qrs = qrs / Fs;
-    rrIntervals = diff(qrs);
+    [~, qrs, widths, ~] = findpeaks(lp_ECG, "MinPeakProminence", peakVal);
+    qrs_time = zeros(1, length(qrs));
+    for i = 1:length(qrs)
+        % Calculate widths to get starting and ending points
+        peak = qrs(i);
+        width = widths(i);
+        startPoint = peak - width;
+        endPoint = peak + width;
+        qrs_time(i) = endPoint - startPoint;
+    end
     subplot(6, 1, 6);
-    histogram(rrIntervals, 25);
-    title("Average RR Interval");
+    plot(qrs_time);
+    title("QRS Times")
+    fprintf("Average QRS Time: %f\n", mean(qrs_time));
 end
