@@ -41,5 +41,9 @@ function final
         fprintf("\t Base   HR: %.2f\n", base_hr);
         fprintf("\t Scared HR: %.2f\n", scared_hr);
         fprintf("\t Calm   HR: %.2f\n", calm_hr);
+        
+        subplot(length(fileList), 1, fileId);
+        plot([base_hr scared_hr calm_hr]);
+        title("Subject " + fileId)
     end
 end
